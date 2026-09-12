@@ -1,0 +1,12 @@
+services:
+  api:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - houmba_data:/app/data
+
+volumes:
+  houmba_data:
