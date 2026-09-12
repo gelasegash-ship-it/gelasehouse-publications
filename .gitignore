@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.env
+backend/houmba_data.json
+backend/*.db
+backend/*.sqlite*
+.DS_Store
+node_modules/
+dist/
