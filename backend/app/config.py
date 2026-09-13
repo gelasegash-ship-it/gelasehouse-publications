@@ -6,6 +6,8 @@ class Settings(BaseSettings):
     app_env: str = "development"
     database_url: str = "sqlite:///./houmba.db"
     cors_origins: str = "http://localhost:3000,http://localhost:5173"
+    supabase_url: str = ""
+    supabase_service_role_key: str = ""
     ai_provider: str = "openai_compatible"
     ai_base_url: str = "https://api.openai.com/v1"
     ai_api_key: str = ""
