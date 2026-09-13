@@ -11,17 +11,22 @@ from pydantic import BaseModel, Field, EmailStr
 from .config import get_settings
 
 settings = get_settings()
-app = FastAPI(title="Houmba H API", version="1.2.0", description="Backend de HOUMBA H et de Houmba H 1")
-app.add_middleware(CORSMiddleware, allow_origins=[x.strip() for x in settings.cors_origins.split(',') if x.strip()], allow_credentials=False, allow_methods=["*"], allow_headers=["*"])
+app = FastAPI(title="Houmba H API", version="1.3.0", description="Backend de HOUMBA H et de Houmba H 1")
+origins = [x.strip() for x in settings.cors_origins.split(',') if x.strip()]
+app.add_middleware(CORSMiddleware, allow_origins=origins, allow_credentials=False, allow_methods=["*"], allow_headers=["*"])
 DATA_FILE = Path(__file__).resolve().parent.parent / "houmba_data.json"
 
+def empty_data():
+    return {"users": [], "publications": [], "tokens": {}, "likes": {}}
+
 def load_data():
-    if not DATA_FILE.exists(): return {"users": [], "publications": [], "tokens": {}, "likes": {}}
+    if not DATA_FILE.exists(): return empty_data()
     try:
         value = json.loads(DATA_FILE.read_text(encoding="utf-8"))
-        for key in ("users", "publications", "tokens", "likes"): value.setdefault(key, [] if key in ("users", "publications") else {})
-        return value
-    except (OSError, json.JSONDecodeError): return {"users": [], "publications": [], "tokens": {}, "likes": {}}
+        base = empty_data()
+        base.update(value)
+        return base
+    except (OSError, json.JSONDecodeError): return empty_data()
 
 def save_data(value):
     DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
@@ -65,7 +70,7 @@ def public_user(user): return {'id': user['id'], 'name': user['name'], 'email': 
 def now(): return datetime.now(timezone.utc).isoformat()
 
 @app.get('/health')
-def health(): return {'status': 'ok', 'service': 'houmba-h-api', 'version': '1.2.0', 'timestamp': now()}
+def health(): return {'status': 'ok', 'service': 'houmba-h-api', 'version': '1.3.0', 'timestamp': now()}
 @app.post('/api/auth/register', status_code=201)
 def register(payload: RegisterIn):
     if any(u['email'].lower() == payload.email.lower() for u in data['users']): raise HTTPException(409, 'Cet email existe déjà')
@@ -114,17 +119,19 @@ def comment_publication(publication_id: str, payload: CommentIn, user=Depends(cu
     item.setdefault('comments', []).append(comment); save_data(data); return comment
 
 @app.post('/api/ai/chat')
-async def ai_chat(payload: ChatIn, user=Depends(current_user)):
+async def ai_chat(payload: Optional[ChatIn] = None, message: Optional[str] = Query(default=None, max_length=10000), authorization: Optional[str] = Header(default=None)):
+    text = (payload.message if payload else message or '').strip()
+    if not text: raise HTTPException(422, 'Le message est obligatoire')
     if not settings.ai_api_key:
-        return {'service': 'Houmba H 1', 'status': 'not_configured', 'message': 'Houmba H 1 est prêt. Ajoutez AI_API_KEY dans Vercel pour activer le modèle.', 'received': payload.message, 'provider': settings.ai_provider}
+        return {'service': 'Houmba H 1', 'status': 'not_configured', 'message': 'Houmba H 1 est prêt. Ajoutez AI_API_KEY dans Vercel pour activer le modèle.', 'received': text, 'provider': settings.ai_provider}
     url = settings.ai_base_url.rstrip('/') + '/chat/completions'
-    body = {'model': settings.ai_model, 'messages': [{'role': 'system', 'content': 'Tu es Houmba H 1, assistant utile, précis et francophone.'}, {'role': 'user', 'content': payload.message}], 'temperature': 0.7}
+    body = {'model': settings.ai_model, 'messages': [{'role': 'system', 'content': 'Tu es Houmba H 1, assistant utile, précis et francophone.'}, {'role': 'user', 'content': text}], 'temperature': 0.7}
     try:
         async with httpx.AsyncClient(timeout=settings.ai_timeout_seconds) as client:
             response = await client.post(url, headers={'Authorization': f'Bearer {settings.ai_api_key}', 'Content-Type': 'application/json'}, json=body)
             response.raise_for_status(); result = response.json()
         answer = result.get('choices', [{}])[0].get('message', {}).get('content', '').strip()
         if not answer: raise ValueError('Réponse IA vide')
-        return {'service': 'Houmba H 1', 'status': 'ok', 'answer': answer, 'model': settings.ai_model, 'provider': settings.ai_provider}
+        return {'service': 'Houmba H 1', 'status': 'ok', 'answer': answer, 'response': answer, 'model': settings.ai_model, 'provider': settings.ai_provider}
     except (httpx.HTTPError, ValueError, KeyError, IndexError) as exc:
         raise HTTPException(502, f'Le fournisseur IA est temporairement indisponible: {type(exc).__name__}')
