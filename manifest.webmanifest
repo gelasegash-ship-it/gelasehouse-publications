@@ -1,0 +1,12 @@
+{
+  "name": "GELASETECH",
+  "short_name": "GELASETECH",
+  "description": "Univers de création, intelligence et communauté orchestré par OMEGA.",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#050713",
+  "theme_color": "#050713",
+  "icons": []
+}
