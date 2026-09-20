@@ -1,6 +1,4 @@
-/* GELASETECH — optional Supabase bridge
- * This file never contains secrets. Configure supabase-config.js locally or in deployment.
- */
+/* GELASETECH — Supabase client + Houmba H 1 validation flow */
 (function () {
   'use strict';
   const cfg = window.GELASETECH_SUPABASE;
@@ -8,7 +6,6 @@
     window.GELASETECH_DB = { enabled: false, reason: 'Supabase non configuré' };
     return;
   }
-
   const client = window.supabase.createClient(cfg.url, cfg.publishableKey);
   window.GELASETECH_DB = {
     enabled: true,
@@ -19,10 +16,7 @@
       return data.session;
     },
     async signUp(email, password, displayName) {
-      const { data, error } = await client.auth.signUp({
-        email, password,
-        options: { data: { display_name: displayName || '' } }
-      });
+      const { data, error } = await client.auth.signUp({ email, password, options: { data: { display_name: displayName || '' } } });
       if (error) throw error;
       return data;
     },
@@ -36,24 +30,51 @@
       if (error) throw error;
     },
     async listPublications() {
-      const { data, error } = await client
-        .from('publications')
-        .select('*')
-        .order('created_at', { ascending: false });
+      const { data, error } = await client.from('publications').select('*').order('created_at', { ascending: false });
       if (error) throw error;
       return data || [];
     },
     async createPublication(payload) {
-      const { data: sessionData } = await client.auth.getSession();
-      if (!sessionData.session) throw new Error('Connexion requise');
+      const session = await this.getSession();
+      if (!session) throw new Error('Connexion requise');
       const row = {
         title: payload.title || 'Publication sans titre',
-        content: payload.content || '',
-        author_id: sessionData.session.user.id
+        description: payload.description || '',
+        category: payload.category || 'Général',
+        author_id: session.user.id,
+        moderation_status: 'pending'
       };
       const { data, error } = await client.from('publications').insert(row).select().single();
       if (error) throw error;
       return data;
+    },
+    async requestHoumbaValidation(publicationId, snapshot) {
+      const session = await this.getSession();
+      if (!session) throw new Error('Connexion requise pour demander la validation Houmba H 1');
+      const { data, error } = await client.from('validation_requests').insert({
+        publication_id: publicationId,
+        requester_id: session.user.id,
+        engine: 'houmba_h1',
+        status: 'pending',
+        input_snapshot: snapshot || {}
+      }).select().single();
+      if (error) throw error;
+      return data;
+    },
+    async getValidationRequests() {
+      const session = await this.getSession();
+      if (!session) return [];
+      const { data, error } = await client.from('validation_requests')
+        .select('*').eq('requester_id', session.user.id).order('created_at', { ascending: false });
+      if (error) throw error;
+      return data || [];
+    },
+    async watchValidationRequests(callback) {
+      const session = await this.getSession();
+      if (!session) return null;
+      return client.channel('gelasetech-houmba-validation')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'validation_requests', filter: 'requester_id=eq.' + session.user.id }, payload => callback(payload))
+        .subscribe();
     }
   };
 })();
