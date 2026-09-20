@@ -11,20 +11,111 @@
 <header class="top"><div class="wrap bar"><a class="brand" href="#home">GELASETECH <b>◈</b></a><nav><a href="#discover">Explorer</a><a href="#create">Créer</a><a href="#omega">OMEGA</a><a href="#vision">Vision</a></nav><button class="btn secondary" onclick="toggleAuth()">Mon espace</button></div></header>
 <main id="home"><section class="hero"><div class="wrap hero-grid"><div><div class="eyebrow">Un nouvel univers numérique</div><h1>Imaginez plus.<br><span>Construisez l’impossible.</span></h1><p>GELASETECH rassemble création, intelligence artificielle, communauté, publication et innovation dans une expérience vivante, conçue pour évoluer avec ses utilisateurs.</p><div class="actions"><a class="btn primary" href="#create">Entrer dans l’expérience</a><a class="btn secondary" href="#discover">Découvrir l’univers</a></div><div class="chips"><span class="chip">IA orchestrée</span><span class="chip">Communauté mondiale</span><span class="chip">Création augmentée</span><span class="chip">Évolution continue</span></div></div><div class="command"><div class="pulse"><i></i> OMEGA ONLINE · ORCHESTRATION ACTIVE</div><div class="orb"><strong>G·T</strong></div><p class="muted">OMEGA coordonne les expériences de GELASETECH. Houmba H 1 pourra être connecté comme intelligence spécialisée lorsque son interface sécurisée sera disponible.</p></div></div></section>
 <section class="section"><div class="wrap feature"><div class="stat"><strong>∞</strong><span>Possibilités de création</span></div><div class="stat"><strong>24/7</strong><span>Intelligence disponible</span></div><div class="stat"><strong>1</strong><span>Univers connecté</span></div><div class="stat"><strong>↗</strong><span>Évolution par modules</span></div></div></section>
-<section id="discover" class="section"><div class="wrap"><h2>Un univers à explorer</h2><p class="muted">Découvrez des idées, des œuvres et des projets. Cette première version fonctionne sans données fictives de revenus ou de transactions.</p><div class="toolbar"><input id="search" class="input" placeholder="Rechercher une idée, un auteur ou un sujet…" oninput="render()"><select id="category" class="select" onchange="render()" style="max-width:240px"><option value="">Toutes les catégories</option><option>Technologie</option><option>Science</option><option>Création</option><option>Éducation</option><option>Économie</option><option>Philosophie</option></select></div><div id="library" class="grid"></div></div></section>
-<section id="create" class="section"><div class="wrap two"><div><h2>Donnez forme à votre vision</h2><p class="muted">Publiez une idée ou une œuvre. Sans API configurée, elle est conservée localement dans votre navigateur.</p><form class="form" onsubmit="publish(event)"><input class="input" id="title" required placeholder="Titre de votre création"><input class="input" id="author" required placeholder="Votre nom ou pseudonyme"><select class="select" id="cat"><option>Technologie</option><option>Science</option><option>Création</option><option>Éducation</option><option>Économie</option><option>Philosophie</option></select><textarea id="description" required placeholder="Décrivez votre idée, votre œuvre ou votre projet"></textarea><button class="btn primary">Publier dans GELASETECH</button><div id="publishNotice" class="notice"></div></form></div><div class="glass"><h2>Le manifeste</h2><p class="muted">Une plateforme remarquable ne se limite pas à afficher des pages : elle donne aux personnes les moyens de créer, comprendre, collaborer et agir avec confiance.</p><ul class="muted"><li>Une expérience claire avant la complexité.</li><li>Une IA utile, contrôlable et transparente.</li><li>Des données protégées et des permissions explicites.</li><li>Des fonctionnalités réelles, jamais de fausses transactions.</li></ul></div></div></section>
+<section id="discover" class="section"><div class="wrap"><h2>Un univers à explorer</h2><p class="muted">Découvrez uniquement les publications enregistrées dans Supabase. GELASETECH ne conserve plus de données métier dans le navigateur.</p><div class="toolbar"><input id="search" class="input" placeholder="Rechercher une idée, un auteur ou un sujet…" oninput="render()"><select id="category" class="select" onchange="render()" style="max-width:240px"><option value="">Toutes les catégories</option><option>Technologie</option><option>Science</option><option>Création</option><option>Éducation</option><option>Économie</option><option>Philosophie</option></select></div><div id="library" class="grid"></div></div></section>
+<section id="create" class="section"><div class="wrap two"><div><h2>Donnez forme à votre vision</h2><p class="muted">Publiez une idée ou une œuvre directement dans Supabase. Une connexion est requise.</p><form class="form" onsubmit="publish(event)"><input class="input" id="title" required placeholder="Titre de votre création"><input class="input" id="author" required placeholder="Votre nom ou pseudonyme"><select class="select" id="cat"><option>Technologie</option><option>Science</option><option>Création</option><option>Éducation</option><option>Économie</option><option>Philosophie</option></select><textarea id="description" required placeholder="Décrivez votre idée, votre œuvre ou votre projet"></textarea><button class="btn primary">Publier dans GELASETECH</button><div id="publishNotice" class="notice"></div></form></div><div class="glass"><h2>Le manifeste</h2><p class="muted">Une plateforme remarquable ne se limite pas à afficher des pages : elle donne aux personnes les moyens de créer, comprendre, collaborer et agir avec confiance.</p><ul class="muted"><li>Une expérience claire avant la complexité.</li><li>Une IA utile, contrôlable et transparente.</li><li>Des données protégées et des permissions explicites.</li><li>Des fonctionnalités réelles, jamais de fausses transactions.</li></ul></div></div></section>
 <section id="omega" class="section"><div class="wrap two"><div><h2>OMEGA, le centre de coordination</h2><p class="muted">OMEGA est conçu comme une couche d’orchestration : il relie les modules, prépare les actions, vérifie les autorisations et présente les résultats à l’utilisateur.</p><div class="card"><span class="tag">Architecture</span><h3>Observer → Comprendre → Proposer → Confirmer → Exécuter</h3><p>Les opérations sensibles — paiements, retraits, transferts ou changements de compte — nécessitent une confirmation explicite et un backend sécurisé.</p></div></div><div class="glass"><h2>Houmba H 1</h2><p class="muted">Intelligence spécialisée prévue pour la recherche, la rédaction, la synthèse et l’assistance créative. L’intégration réelle dépendra de son API ou de son protocole officiel.</p><button class="btn secondary" onclick="askSuggested('Aide-moi à transformer une idée en projet concret.')">Demander une idée à l’assistant</button><button class="btn primary" onclick="requestHoumbaValidation()">Soumettre à Houmba H 1 pour validation</button><div id="validationStatus" class="notice"></div></div></div></section>
 <section id="vision" class="section"><div class="wrap"><h2>La vision GELASETECH</h2><p class="muted">Une base solide aujourd’hui, capable d’accueillir demain des profils, une communauté, des espaces de travail, des contenus multimédias, des abonnements, un commerce sécurisé, des paiements vérifiés, des expériences 3D et des interfaces holographiques progressives.</p></div></section></main>
 <footer class="footer"><div class="wrap">© 2026 GELASETECH · Dépôt technique : gelasehouse-publications · OMEGA est la couche d’orchestration du produit.</div></footer>
 <script>
 const API_BASE=(window.GELASETECH_API_BASE||'').replace(/\/$/,'');
-const seed=[{title:'L’Afrique et l’intelligence artificielle',author:'Gelase',category:'Technologie',description:'Les opportunités de l’IA pour le développement africain.'},{title:'Les frontières de la conscience',author:'Communauté GELASETECH',category:'Science',description:'Une exploration accessible de la physique, de la cognition et de la conscience.'},{title:'Créer sans frontières',author:'Atelier ouvert',category:'Création',description:'Comment transformer une intuition en œuvre partageable.'}];
-let publications=JSON.parse(localStorage.getItem('gelasetech_publications')||'null')||seed;
-function esc(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-function render(){const q=(document.getElementById('search').value||'').toLowerCase(),c=document.getElementById('category').value;const list=publications.filter(p=>(!c||p.category===c)&&(!q||[p.title,p.author,p.description,p.category].join(' ').toLowerCase().includes(q)));document.getElementById('library').innerHTML=list.map(p=>`<article class="card"><span class="tag">${esc(p.category||'Général')}</span><h3>${esc(p.title)}</h3><p>${esc(p.description||'')}</p><div class="meta"><span>Par ${esc(p.author?.name||p.author||'Auteur')}</span><span>◇ Découvrir</span></div></article>`).join('')||'<p class="muted">Aucune publication trouvée.</p>'}
-async function publish(e){e.preventDefault();const title=document.getElementById('title').value.trim(),author=document.getElementById('author').value.trim(),category=document.getElementById('cat').value,description=document.getElementById('description').value.trim(),notice=document.getElementById('publishNotice');let p={title,author,category,description};try{if(window.GELASETECH_DB?.enabled){p=await window.GELASETECH_DB.createPublication({title,description,category});p.author=author;p._houmbaEligible=true;notice.style.display='block';notice.textContent='Publication enregistrée dans Supabase. Vous pouvez maintenant la soumettre à Houmba H 1.';}else{const token=localStorage.getItem('gelasetech_token');const headers={'Content-Type':'application/json'};if(token)headers.Authorization='Bearer '+token;const r=await fetch(API_BASE+'/api/publications',{method:'POST',headers,body:JSON.stringify({title,description,category})});if(r.ok)p=await r.json();else if(r.status===401)throw new Error('Connectez-vous pour publier sur le serveur.');notice.style.display='block';notice.textContent='Publication locale activée.'}}catch(err){notice.style.display='block';notice.textContent=err.message||'Publication impossible.'}publications.unshift(p);localStorage.setItem('gelasetech_publications',JSON.stringify(publications));e.target.reset();render();setTimeout(async()=>{try{if(window.GELASETECH_DB?.enabled){const remote=await window.GELASETECH_DB.listPublications();if(remote.length){publications=remote;localStorage.setItem("gelasetech_publications",JSON.stringify(publications));render();}}}catch(_){}},900);}
-async function askSuggested(text){document.getElementById('prompt').value=text;document.getElementById('omega').scrollIntoView({behavior:'smooth'});setTimeout(ask,250)}
-async function ask(){const input=document.getElementById('prompt'),text=input?.value.trim();if(!text)return;const box=document.getElementById('messages');box.innerHTML+=`<div class="bubble me">${esc(text)}</div>`;input.value='';let answer='Je peux vous aider à structurer cette idée, rédiger un plan, améliorer un texte ou préparer une publication.';try{const r=await fetch(API_BASE+'/api/ai/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text})});if(r.ok){const d=await r.json();answer=d.answer||d.response||d.message||answer}}catch(_){}box.innerHTML+=`<div class="bubble">${esc(answer)}</div>`;box.scrollTop=box.scrollHeight}
-async function requestHoumbaValidation(){const status=document.getElementById("validationStatus");status.style.display="block";try{if(!window.GELASETECH_DB?.enabled)throw new Error("Le client Supabase n’est pas encore chargé.");const session=await window.GELASETECH_DB.getSession();if(!session)throw new Error("Connectez-vous d’abord avec Mon espace.");const candidate=publications.find(p=>p.id&&p.author_id===session.user.id&&p._houmbaEligible)||publications.find(p=>p.id&&p.author_id===session.user.id);if(!candidate)throw new Error("Publiez d’abord une création avec votre compte.");const req=await window.GELASETECH_DB.requestHoumbaValidation(candidate.id,{title:candidate.title,description:candidate.description,category:candidate.category});status.textContent="Demande Houmba H 1 créée : "+req.status+" · validation en attente.";status.style.display="block";}catch(e){status.textContent=e.message||"Validation indisponible.";status.style.display="block";}}\nfunction toggleAuth(){const email=prompt('Email du compte (laisser vide pour annuler)');if(!email)return;const password=window.prompt('Mot de passe (8 caractères minimum)');if(!password)return;const name=window.prompt('Nom — laissez vide pour vous connecter');const endpoint=name?'/api/auth/register':'/api/auth/login';const body=name?{name,email,password}:{email,password};fetch(API_BASE+endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(r=>r.json()).then(d=>{if(d.access_token){localStorage.setItem('gelasetech_token',d.access_token);alert('Connexion réussie.')}else alert(d.detail||'Compte traité.');}).catch(()=>alert('API indisponible.'))}
-render();
+let publications=[];
+let currentSession=null;
+
+function esc(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+function render(){
+  const q=(document.getElementById('search').value||'').toLowerCase();
+  const c=document.getElementById('category').value;
+  const list=publications.filter(p=>(!c||p.category===c)&&(!q||[p.title,p.description,p.category,p.author?.name,p.author].join(' ').toLowerCase().includes(q)));
+  document.getElementById('library').innerHTML=list.map(p=>`<article class="card"><span class="tag">${esc(p.category||'Général')}</span><h3>${esc(p.title)}</h3><p>${esc(p.description||'')}</p><div class="meta"><span>Par ${esc(p.author?.name||p.author||'Auteur')}</span><span>${esc(p.moderation_status||'pending')}</span></div></article>`).join('')||'<p class="muted">Aucune publication enregistrée.</p>';
+}
+async function loadPublications(){
+  if(!window.GELASETECH_DB?.enabled) throw new Error('Connexion Supabase indisponible.');
+  publications=await window.GELASETECH_DB.listPublications();
+  render();
+}
+async function publish(e){
+  e.preventDefault();
+  const notice=document.getElementById('publishNotice');
+  notice.style.display='block';
+  try{
+    if(!window.GELASETECH_DB?.enabled) throw new Error('Supabase n’est pas disponible.');
+    const session=await window.GELASETECH_DB.getSession();
+    if(!session) throw new Error('Connectez-vous avant de publier.');
+    const p=await window.GELASETECH_DB.createPublication({
+      title:document.getElementById('title').value.trim(),
+      description:document.getElementById('description').value.trim(),
+      category:document.getElementById('cat').value
+    });
+    notice.textContent='Publication enregistrée dans Supabase. Statut : '+(p.moderation_status||'pending')+'.';
+    e.target.reset();
+    await loadPublications();
+  }catch(err){notice.textContent=err.message||'Publication impossible.';}
+}
+async function askSuggested(text){document.getElementById('prompt').value=text;document.getElementById('omega').scrollIntoView({behavior:'smooth'});setTimeout(ask,150)}
+async function ask(){
+  const input=document.getElementById('prompt'), box=document.getElementById('messages'), text=input.value.trim();
+  if(!text)return;
+  box.innerHTML+=`<div class="bubble me">${esc(text)}</div>`;
+  input.value='';
+  let answer;
+  try{
+    if(!API_BASE) throw new Error('OMEGA distant n’est pas encore exposé par un backend public.');
+    const r=await fetch(API_BASE+'/api/ai/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text})});
+    if(!r.ok) throw new Error('Service OMEGA indisponible.');
+    const d=await r.json(); answer=d.answer||d.response||d.message||'Réponse vide.';
+  }catch(err){answer=err.message;}
+  box.innerHTML+=`<div class="bubble">${esc(answer)}</div>`;
+  box.scrollTop=box.scrollHeight;
+}
+async function requestHoumbaValidation(){
+  const status=document.getElementById('validationStatus'); status.style.display='block';
+  try{
+    if(!window.GELASETECH_DB?.enabled) throw new Error('Supabase n’est pas disponible.');
+    const session=await window.GELASETECH_DB.getSession();
+    if(!session) throw new Error('Connectez-vous d’abord avec Mon espace.');
+    const candidate=publications.find(p=>p.author_id===session.user.id);
+    if(!candidate) throw new Error('Publiez d’abord une création avec votre compte.');
+    const req=await window.GELASETECH_DB.requestHoumbaValidation(candidate.id,{title:candidate.title,description:candidate.description,category:candidate.category});
+    status.textContent='Demande Houmba H 1 créée : '+req.status+'.';
+    const history=await window.GELASETECH_DB.getValidationRequests();
+    if(history[0]?.status) status.textContent+=' Statut actuel : '+history[0].status+'.';
+  }catch(e){status.textContent=e.message||'Validation indisponible.';}
+}
+async function toggleAuth(){
+  const db=window.GELASETECH_DB;
+  if(!db?.enabled){alert('Supabase est indisponible.');return;}
+  try{
+    const session=await db.getSession();
+    if(session){await db.signOut(); currentSession=null; alert('Vous êtes déconnecté.'); renderAuth(); return;}
+    const email=window.prompt('Email');
+    if(!email)return;
+    const password=window.prompt('Mot de passe');
+    if(!password)return;
+    const mode=window.prompt('Tapez INSCRIPTION pour créer un compte, sinon CONNEXION');
+    if((mode||'').toUpperCase()==='INSCRIPTION'){
+      const name=window.prompt('Nom affiché')||'';
+      const data=await db.signUp(email,password,name);
+      alert(data.session?'Compte créé et connecté.':'Compte créé. Vérifiez votre email si Supabase demande une confirmation.');
+    }else{
+      await db.signIn(email,password);
+      alert('Connexion réussie.');
+    }
+    currentSession=await db.getSession(); renderAuth();
+    await loadPublications();
+  }catch(e){alert(e.message||'Authentification impossible.');}
+}
+function renderAuth(){document.querySelector('.bar .secondary').textContent=currentSession?'Déconnexion':'Mon espace';}
+async function boot(){
+  try{
+    if(!window.GELASETECH_DB?.enabled) throw new Error('Supabase non chargé.');
+    currentSession=await window.GELASETECH_DB.getSession();
+    renderAuth();
+    await loadPublications();
+    await window.GELASETECH_DB.watchValidationRequests(()=>{requestHoumbaValidation().catch(()=>{});});
+  }catch(e){
+    document.getElementById('library').innerHTML='<p class="muted">GELASETECH attend la connexion au service distant Supabase. Aucune donnée locale n’est utilisée.</p>';
+    renderAuth();
+  }
+}
+boot();
 </script></body></html>
