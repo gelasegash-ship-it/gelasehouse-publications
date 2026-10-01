@@ -118,4 +118,42 @@ async function boot(){
   }
 }
 boot();
-</script></body></html>
+</script><button id="gelasetech-ai" onclick="gtAI.toggle()" style="position:fixed;bottom:16px;right:16px;z-index:9999;background:#ffd700;color:#000;border:none;border-radius:50%;width:54px;height:54px;font-size:24px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.5)" title="IA Autonome GELASETECH">🤖</button>
+<div id="gtAIPanel" style="display:none;position:fixed;bottom:80px;right:16px;z-index:9999;width:min(340px,92vw);max-height:70vh;background:#141938;border:1px solid #2a2f5a;border-radius:14px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.6);display:none;flex-direction:column">
+<div style="padding:12px 14px;background:#1a1f3a;border-bottom:1px solid #2a2f5a">
+<b style="color:#ffd700;font-size:14px">🤖 IA AUTONOME GELASETECH</b>
+<div style="color:#8a8aaa;font-size:11px">Elle rédige, suggère, contourne les blocages — toujours dans un cadre légal.</div>
+</div>
+<div id="gtAIChat" style="flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;min-height:180px"></div>
+<div style="padding:10px;border-top:1px solid #2a2f5a;display:flex;gap:6px;flex-wrap:wrap">
+<button onclick="gtAI.draft()" style="flex:1;min-width:110px;background:#ffd700;color:#000;border:none;border-radius:8px;padding:8px;font-size:12px;font-weight:bold;cursor:pointer">📝 Rédiger une publication</button>
+<button onclick="gtAI.ideas()" style="flex:1;min-width:110px;background:#1a1f3a;color:#ffd700;border:1px solid #ffd700;border-radius:8px;padding:8px;font-size:12px;cursor:pointer">💡 Idées virales</button>
+</div>
+<div style="padding:10px;display:flex;gap:6px;border-top:1px solid #2a2f5a">
+<input id="gtAIInput" placeholder="Demande quelque chose à l IA..." style="flex:1;padding:9px;border-radius:8px;border:1px solid #2a2f5a;background:#0d1229;color:#e0e0ff;font-size:12px">
+<button onclick="gtAI.ask()" style="background:#ffd700;color:#000;border:none;border-radius:8px;padding:8px 12px;font-weight:bold;cursor:pointer;font-size:12px">➤</button>
+</div>
+</div>
+<script>
+var gtAI={
+url:'https://base44.app/api/apps/6a8ed03b9012aee5b2fcf7e9/functions/aiRouter',
+toggle:function(){var p=document.getElementById('gtAIPanel');p.style.display=(p.style.display==='flex')?'none':'flex';if(!p.dataset.hi){p.dataset.hi=1;gtAI.add('ai','Bonjour ! Je suis l IA autonome de GELASETECH. Je peux rédiger une publication complète (remplie le formulaire d un clic), proposer des idées, ou répondre à toute question. Que puis-je faire ?');}},
+add:function(who,text){var c=document.getElementById('gtAIChat');var b=document.createElement('div');b.style.cssText=(who==='ai'?'background:#1a1f3a;color:#e0e0ff;align-self:flex-start':'background:#2a2f5a;color:#fff;align-self:flex-end')+';max-width:88%;padding:9px 12px;border-radius:10px;font-size:12px;line-height:1.45;white-space:pre-wrap';b.textContent=text;c.appendChild(b);c.scrollTop=c.scrollHeight;},
+busy:false,
+call:function(prompt,cb){if(gtAI.busy)return;gtAI.busy=true;gtAI.add('ai','⏳ ...');
+fetch(gtAI.url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'generate',prompt:prompt})}).then(function(r){return r.json();}).then(function(d){
+var c=document.getElementById('gtAIChat');c.removeChild(c.lastChild);
+gtAI.busy=false;cb(d&&d.response?d.response:JSON.stringify(d).slice(0,300));
+}).catch(function(e){var c=document.getElementById('gtAIChat');c.removeChild(c.lastChild);gtAI.busy=false;gtAI.add('ai','❌ Réseau indisponible: '+e.message);});},
+ask:function(){var i=document.getElementById('gtAIInput');var v=(i.value||'').trim();if(!v)return;i.value='';gtAI.add('me',v);gtAI.call(v,function(t){gtAI.add('ai',t);});},
+draft:function(){var s=prompt('Sur quel sujet ? (ex: comment l IA transforme les entreprises congolaises)');if(!s)return;gtAI.add('me','Rédige une publication sur: '+s);gtAI.call('Rédige pour GELASETECH (plateforme de publications congolaise, ton inspirant et pro, français) une publication sur: '+s+'. Réponds en 3 paragraphes clairs, directement utilisable comme publication.',function(t){
+gtAI.add('ai',t);
+try{
+var ti=document.getElementById('title');var de=document.getElementById('description');var ca=document.getElementById('category');
+if(ti&&de){ti.value=s.charAt(0).toUpperCase()+s.slice(1);de.value=t;if(ca){var cats=['Technologie','Science','Création','Éducation','Économie','Philosophie'];var low=s.toLowerCase();ca.value=(low.indexOf('tech')>-1||low.indexOf('ia')>-1)?'Technologie':(low.indexOf('econom')>-1||low.indexOf('business')>-1)?'Économie':(low.indexOf('educ')>-1)?'Éducation':'Création';}
+gtAI.add('ai','📝 Formulaire de création pré-rempli ! Vérifie et clique Publier. (Le service distant doit être rétabli pour publier.)');
+}catch(e){}});},
+ideas:function(){gtAI.add('me','Donne-moi des idées de publications virales');gtAI.call('Donne 5 idées de publications virales et inspirantes pour GELASETECH, plateforme de publications congolaise (tech, IA, économie, culture). Format: liste numérotée, 1 ligne par idée, accrocheuse.',function(t){gtAI.add('ai',t);});}
+};
+</script>
+</body></html>
