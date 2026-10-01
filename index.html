@@ -152,7 +152,7 @@ try{
 var ti=document.getElementById('title');var de=document.getElementById('description');var ca=document.getElementById('category');
 if(ti&&de){ti.value=s.charAt(0).toUpperCase()+s.slice(1);de.value=t;if(ca){var cats=['Technologie','Science','Création','Éducation','Économie','Philosophie'];var low=s.toLowerCase();ca.value=(low.indexOf('tech')>-1||low.indexOf('ia')>-1)?'Technologie':(low.indexOf('econom')>-1||low.indexOf('business')>-1)?'Économie':(low.indexOf('educ')>-1)?'Éducation':'Création';}
 gtAI.add('ai','📝 Formulaire de création pré-rempli ! Vérifie et clique Publier. (Le service distant doit être rétabli pour publier.)');
-}catch(e){}});},
+}}catch(e){}});},
 ideas:function(){gtAI.add('me','Donne-moi des idées de publications virales');gtAI.call('Donne 5 idées de publications virales et inspirantes pour GELASETECH, plateforme de publications congolaise (tech, IA, économie, culture). Format: liste numérotée, 1 ligne par idée, accrocheuse.',function(t){gtAI.add('ai',t);});}
 };
 </script>
