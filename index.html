@@ -156,4 +156,12 @@ gtAI.add('ai','📝 Formulaire de création pré-rempli ! Vérifie et clique Pub
 ideas:function(){gtAI.add('me','Donne-moi des idées de publications virales');gtAI.call('Donne 5 idées de publications virales et inspirantes pour GELASETECH, plateforme de publications congolaise (tech, IA, économie, culture). Format: liste numérotée, 1 ligne par idée, accrocheuse.',function(t){gtAI.add('ai',t);});}
 };
 </script>
+<script id="gtAIProactive">
+(function(){
+function open(){var p=document.getElementById('gtAIPanel');if(!p||p.dataset.hi)return;p.style.display='flex';p.dataset.hi=1;
+gtAI.add('ai','👋 Je suis l IA autonome de GELASETECH, active dès maintenant. Je peux rédiger et publier une publication complète pour toi (formulaire rempli automatiquement), te donner des idées virales, ou répondre à toute question. Essaie « Rédige une publication sur l IA au Congo ».');
+}
+try{if(!sessionStorage.getItem('gtAISeen')){sessionStorage.setItem('gtAISeen','1');setTimeout(open,3500);}}catch(e){}
+})();
+</script>
 </body></html>
