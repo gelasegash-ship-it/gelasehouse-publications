@@ -34,3 +34,10 @@ Puis ouvrir `index.html` ou servir le dossier avec un serveur HTTP local.
 ## Important
 
 Le dépôt contient une application fonctionnelle de démonstration et une base extensible. Il ne faut pas présenter les intégrations externes comme actives tant que leurs secrets et services ne sont pas configurés.
+
+## État du 1er octobre 2026
+
+- Supabase injoignable au niveau DNS mondial (projet en pause ou supprimé) — voir `docs/RESTAURATION-SUPABASE.md`.
+- Résilience livrée (commit 5e6b25a) : le site affiche 3 publications vedettes intégrées quand la base est injoignable, au lieu d'attendre indéfiniment.
+- Déploiement GitHub Pages automatisé par GitHub Actions (`.github/workflows/pages.yml`) : chaque push sur main déploie en production.
+- Pipeline de validation backend actif (`validate.yml`) : compilation Python + tests + vérification HTML.
