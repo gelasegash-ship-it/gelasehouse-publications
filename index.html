@@ -113,7 +113,7 @@ async function boot(){
     await loadPublications();
     await window.GELASETECH_DB.watchValidationRequests(()=>{requestHoumbaValidation().catch(()=>{});});
   }catch(e){
-    document.getElementById('library').innerHTML='<p class="muted">GELASETECH attend la connexion au service distant Supabase. Aucune donnée locale n’est utilisée.</p>';
+    document.getElementById('library').innerHTML='<p class="muted">Mode vedettes : le service distant Supabase est injoignable (probablement en pause). Les publications intégrées sont affichées. Restaurer le projet sur supabase.com pour tout retrouver.</p>';
     renderAuth();
   }
 }
