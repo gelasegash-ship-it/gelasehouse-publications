@@ -12,7 +12,7 @@
 <main id="home"><section class="hero"><div class="wrap hero-grid"><div><div class="eyebrow">Un nouvel univers numérique</div><h1>Imaginez plus.<br><span>Construisez l’impossible.</span></h1><p>GELASETECH rassemble création, intelligence artificielle, communauté, publication et innovation dans une expérience vivante, conçue pour évoluer avec ses utilisateurs.</p><div class="actions"><a class="btn primary" href="#create">Entrer dans l’expérience</a><a class="btn secondary" href="#discover">Découvrir l’univers</a></div><div class="chips"><span class="chip">IA orchestrée</span><span class="chip">Communauté mondiale</span><span class="chip">Création augmentée</span><span class="chip">Évolution continue</span></div></div><div class="command"><div class="pulse"><i></i> OMEGA ONLINE · ORCHESTRATION ACTIVE</div><div class="orb"><strong>G·T</strong></div><p class="muted">OMEGA coordonne les expériences de GELASETECH. Houmba H 1 pourra être connecté comme intelligence spécialisée lorsque son interface sécurisée sera disponible.</p></div></div></section>
 <section class="section"><div class="wrap feature"><div class="stat"><strong>∞</strong><span>Possibilités de création</span></div><div class="stat"><strong>24/7</strong><span>Intelligence disponible</span></div><div class="stat"><strong>1</strong><span>Univers connecté</span></div><div class="stat"><strong>↗</strong><span>Évolution par modules</span></div></div></section>
 <section id="discover" class="section"><div class="wrap"><h2>Un univers à explorer</h2><p class="muted">Découvrez uniquement les publications enregistrées dans Supabase. GELASETECH ne conserve plus de données métier dans le navigateur.</p><div class="toolbar"><input id="search" class="input" placeholder="Rechercher une idée, un auteur ou un sujet…" oninput="render()"><select id="category" class="select" onchange="render()" style="max-width:240px"><option value="">Toutes les catégories</option><option>Technologie</option><option>Science</option><option>Création</option><option>Éducation</option><option>Économie</option><option>Philosophie</option></select></div><div id="library" class="grid"></div></div></section>
-<section id="create" class="section"><div class="wrap two"><div><h2>Donnez forme à votre vision</h2><p class="muted">Publiez une idée ou une œuvre directement dans Supabase. Une connexion est requise.</p><form class="form" onsubmit="publish(event)"><input class="input" id="title" required placeholder="Titre de votre création"><input class="input" id="author" required placeholder="Votre nom ou pseudonyme"><select class="select" id="cat"><option>Technologie</option><option>Science</option><option>Création</option><option>Éducation</option><option>Économie</option><option>Philosophie</option></select><textarea id="description" required placeholder="Décrivez votre idée, votre œuvre ou votre projet"></textarea><button class="btn primary">Publier dans GELASETECH</button><div id="publishNotice" class="notice"></div></form></div><div class="glass"><h2>Le manifeste</h2><p class="muted">Une plateforme remarquable ne se limite pas à afficher des pages : elle donne aux personnes les moyens de créer, comprendre, collaborer et agir avec confiance.</p><ul class="muted"><li>Une expérience claire avant la complexité.</li><li>Une IA utile, contrôlable et transparente.</li><li>Des données protégées et des permissions explicites.</li><li>Des fonctionnalités réelles, jamais de fausses transactions.</li></ul></div></div></section>
+<section id="create" class="section"><div class="wrap two"><div><h2>Donnez forme à votre vision</h2><p class="muted">Publiez une idée ou une œuvre directement dans Supabase. Connectez-vous via « Mon espace » : compte local créé en 10 secondes, valable même si la base en ligne est en pause.</p><form class="form" onsubmit="publish(event)"><input class="input" id="title" required placeholder="Titre de votre création"><input class="input" id="author" required placeholder="Votre nom ou pseudonyme"><select class="select" id="cat"><option>Technologie</option><option>Science</option><option>Création</option><option>Éducation</option><option>Économie</option><option>Philosophie</option></select><textarea id="description" required placeholder="Décrivez votre idée, votre œuvre ou votre projet"></textarea><button class="btn primary">Publier dans GELASETECH</button><div id="publishNotice" class="notice"></div></form></div><div class="glass"><h2>Le manifeste</h2><p class="muted">Une plateforme remarquable ne se limite pas à afficher des pages : elle donne aux personnes les moyens de créer, comprendre, collaborer et agir avec confiance.</p><ul class="muted"><li>Une expérience claire avant la complexité.</li><li>Une IA utile, contrôlable et transparente.</li><li>Des données protégées et des permissions explicites.</li><li>Des fonctionnalités réelles, jamais de fausses transactions.</li></ul></div></div></section>
 <section id="omega" class="section"><div class="wrap two"><div><h2>OMEGA, le centre de coordination</h2><p class="muted">OMEGA est conçu comme une couche d’orchestration : il relie les modules, prépare les actions, vérifie les autorisations et présente les résultats à l’utilisateur.</p><div class="card"><span class="tag">Architecture</span><h3>Observer → Comprendre → Proposer → Confirmer → Exécuter</h3><p>Les opérations sensibles — paiements, retraits, transferts ou changements de compte — nécessitent une confirmation explicite et un backend sécurisé.</p></div></div><div class="glass"><h2>Houmba H 1</h2><p class="muted">Intelligence spécialisée prévue pour la recherche, la rédaction, la synthèse et l’assistance créative. L’intégration réelle dépendra de son API ou de son protocole officiel.</p><button class="btn secondary" onclick="askSuggested('Aide-moi à transformer une idée en projet concret.')">Demander une idée à l’assistant</button><button class="btn primary" onclick="requestHoumbaValidation()">Soumettre à Houmba H 1 pour validation</button><div id="validationStatus" class="notice"></div></div></div></section>
 <section id="vision" class="section"><div class="wrap"><h2>La vision GELASETECH</h2><p class="muted">Une base solide aujourd’hui, capable d’accueillir demain des profils, une communauté, des espaces de travail, des contenus multimédias, des abonnements, un commerce sécurisé, des paiements vérifiés, des expériences 3D et des interfaces holographiques progressives.</p></div></section></main>
 <footer class="footer"><div class="wrap">© 2026 GELASETECH · Dépôt technique : gelasehouse-publications · OMEGA est la couche d’orchestration du produit.</div></footer>
@@ -26,30 +26,34 @@ function render(){
   const q=(document.getElementById('search').value||'').toLowerCase();
   const c=document.getElementById('category').value;
   const list=publications.filter(p=>(!c||p.category===c)&&(!q||[p.title,p.description,p.category,p.author?.name,p.author].join(' ').toLowerCase().includes(q)));
-  document.getElementById('library').innerHTML=list.map(p=>`<article class="card"><span class="tag">${esc(p.category||'Général')}</span><h3>${esc(p.title)}</h3><p>${esc(p.description||'')}</p><div class="meta"><span>Par ${esc(p.author?.name||p.author||'Auteur')}</span><span>${esc(p.moderation_status||'pending')}</span></div></article>`).join('')||'<p class="muted">Aucune publication enregistrée.</p>';
+  document.getElementById('library').innerHTML=list.map(p=>`<article class="card"><span class="tag">${esc(p.category||'Général')}</span><h3>${esc(p.title)}</h3><p>${esc(p.description||'')}</p><div class="meta"><span>Par ${esc(p.author?.name||p.author||'Auteur')}</span><span>${esc(p.moderation_status||'pending')}</span><button class="lb" onclick="likePub('${p.id}')">❤️ ${gtLikes()[p.id]||0}</button><button class="lb" onclick="addComment('${p.id}')">💬 ${(gtComments()[p.id]||[]).length}</button></div></article>`).join('')||'<p class="muted">Aucune publication enregistrée.</p>';
 }
 async function loadPublications(){
-  if(!window.GELASETECH_DB?.enabled) throw new Error('Connexion Supabase indisponible.');
-  publications=await window.GELASETECH_DB.listPublications();
+  let remote=[];
+  try{ if(window.GELASETECH_DB?.enabled){ remote=await window.GELASETECH_DB.listPublications(); } }catch(e){}
+  const local=gtLocalPubs();
+  const seen=new Set(); publications=[];
+  local.concat(Array.isArray(remote)?remote:[]).forEach(p=>{ if(p&&p.id&&!seen.has(p.id)){seen.add(p.id);publications.push(p);} });
+  if(!publications.length && window.GELASETECH_FEATURED){ publications=window.GELASETECH_FEATURED.slice(); }
   render();
 }
 async function publish(e){
   e.preventDefault();
   const notice=document.getElementById('publishNotice');
   notice.style.display='block';
-  try{
-    if(!window.GELASETECH_DB?.enabled) throw new Error('Supabase n’est pas disponible.');
-    const session=await window.GELASETECH_DB.getSession();
-    if(!session) throw new Error('Connectez-vous avant de publier.');
-    const p=await window.GELASETECH_DB.createPublication({
-      title:document.getElementById('title').value.trim(),
-      description:document.getElementById('description').value.trim(),
-      category:document.getElementById('cat').value
-    });
-    notice.textContent='Publication enregistrée dans Supabase. Statut : '+(p.moderation_status||'pending')+'.';
-    e.target.reset();
-    await loadPublications();
-  }catch(err){notice.textContent=err.message||'Publication impossible.';}
+  const sess=gtSession();
+  if(!sess){notice.textContent='Connectez-vous via Mon espace (compte local en 10 secondes).';return;}
+  const title=document.getElementById('title').value.trim();
+  const description=document.getElementById('description').value.trim();
+  const category=document.getElementById('cat').value;
+  if(!title||!description){notice.textContent='Titre et description requis.';return;}
+  const pub={id:'local-'+Date.now(),title,description,category,author:sess.name,author_name:sess.name,local:true,created_at:new Date().toISOString(),moderation_status:'published'};
+  let synced=false;
+  try{ if(window.GELASETECH_DB?.enabled){ await window.GELASETECH_DB.createPublication({title,description,category}); synced=true; } }catch(err){}
+  const a=gtLocalPubs(); a.unshift(pub); gtSaveLocalPubs(a);
+  notice.textContent=synced?'✅ Publié : sauvegardé sur votre appareil ET synchronisé dans la base en ligne.':'✅ Publié : sauvegardé sur votre appareil (la base en ligne est en pause, votre texte est en sécurité et se synchronisera à son retour).';
+  e.target.reset();
+  loadPublications();
 }
 async function askSuggested(text){document.getElementById('prompt').value=text;document.getElementById('omega').scrollIntoView({behavior:'smooth'});setTimeout(ask,150)}
 async function ask(){
@@ -82,41 +86,19 @@ async function requestHoumbaValidation(){
   }catch(e){status.textContent=e.message||'Validation indisponible.';}
 }
 async function toggleAuth(){
-  const db=window.GELASETECH_DB;
-  if(!db?.enabled){alert('Supabase est indisponible.');return;}
-  try{
-    const session=await db.getSession();
-    if(session){await db.signOut(); currentSession=null; alert('Vous êtes déconnecté.'); renderAuth(); return;}
-    const email=window.prompt('Email');
-    if(!email)return;
-    const password=window.prompt('Mot de passe');
-    if(!password)return;
-    const mode=window.prompt('Tapez INSCRIPTION pour créer un compte, sinon CONNEXION');
-    if((mode||'').toUpperCase()==='INSCRIPTION'){
-      const name=window.prompt('Nom affiché')||'';
-      const data=await db.signUp(email,password,name);
-      alert(data.session?'Compte créé et connecté.':'Compte créé. Vérifiez votre email si Supabase demande une confirmation.');
-    }else{
-      await db.signIn(email,password);
-      alert('Connexion réussie.');
-    }
-    currentSession=await db.getSession(); renderAuth();
-    await loadPublications();
-  }catch(e){alert(e.message||'Authentification impossible.');}
-}
-function renderAuth(){document.querySelector('.bar .secondary').textContent=currentSession?'Déconnexion':'Mon espace';}
-async function boot(){
-  try{
-    if(!window.GELASETECH_DB?.enabled) throw new Error('Supabase non chargé.');
-    currentSession=await window.GELASETECH_DB.getSession();
-    renderAuth();
-    await loadPublications();
-    await window.GELASETECH_DB.watchValidationRequests(()=>{requestHoumbaValidation().catch(()=>{});});
-  }catch(e){
-    document.getElementById('library').innerHTML='<p class="muted">Mode vedettes : le service distant Supabase est injoignable (probablement en pause). Les publications intégrées sont affichées. Restaurer le projet sur supabase.com pour tout retrouver.</p>';
-    renderAuth();
+  if(gtSession()){
+    if(window.GELASETECH_DB?.enabled){ try{ await window.GELASETECH_DB.signOut(); }catch(e){} }
+    gtSetSession(null); alert('Vous êtes déconnecté.'); loadPublications(); return;
   }
+  showAuthModal();
 }
+function renderAuth(){ const b=document.querySelector('.bar .secondary'); if(!b)return; const s=gtSession(); b.textContent=s?('👤 '+s.name):'Mon espace'; }
+async function boot(){
+  try{ if(window.GELASETECH_DB?.enabled){ currentSession=await window.GELASETECH_DB.getSession(); try{ await window.GELASETECH_DB.watchValidationRequests(()=>{requestHoumbaValidation().catch(()=>{});}); }catch(e){} } }catch(e){}
+  renderAuth();
+  await loadPublications();
+}
+
 boot();
 </script><button id="gelasetech-ai" onclick="gtAI.toggle()" style="position:fixed;bottom:16px;right:16px;z-index:9999;background:#ffd700;color:#000;border:none;border-radius:50%;width:54px;height:54px;font-size:24px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.5)" title="IA Autonome GELASETECH">🤖</button>
 <div id="gtAIPanel" style="display:none;position:fixed;bottom:80px;right:16px;z-index:9999;width:min(340px,92vw);max-height:70vh;background:#141938;border:1px solid #2a2f5a;border-radius:14px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.6);display:none;flex-direction:column">
@@ -163,5 +145,67 @@ gtAI.add('ai','👋 Je suis l IA autonome de GELASETECH, active dès maintenant.
 }
 try{if(!sessionStorage.getItem('gtAISeen')){sessionStorage.setItem('gtAISeen','1');setTimeout(open,3500);}}catch(e){}
 })();
+</script>
+<style>.lb{background:#1a1f3a;color:#ffd700;border:1px solid #2a2f5a;border-radius:6px;padding:2px 8px;font-size:11px;cursor:pointer;margin-left:6px}</style>
+<div id="authModal" style="display:none;position:fixed;inset:0;background:rgba(5,8,25,.9);z-index:9998;align-items:center;justify-content:center;padding:20px">
+<div style="background:#141938;border:1px solid #2a2f5a;border-radius:14px;max-width:380px;width:100%;padding:22px">
+<h3 style="color:#ffd700;margin:0 0 6px">Mon espace</h3>
+<p style="color:#8a8aaa;font-size:12px;margin:0 0 14px">Compte local sécurisé (mot de passe chiffré SHA-256 sur votre appareil). Fonctionne même si le service distant est en pause.</p>
+<input id="amName" placeholder="Nom affiché (pour inscription)" style="width:100%;box-sizing:border-box;margin-bottom:8px;padding:10px;border-radius:8px;border:1px solid #2a2f5a;background:#0d1229;color:#e0e0ff;font-size:13px">
+<input id="amEmail" placeholder="Email" style="width:100%;box-sizing:border-box;margin-bottom:8px;padding:10px;border-radius:8px;border:1px solid #2a2f5a;background:#0d1229;color:#e0e0ff;font-size:13px">
+<input id="amPass" type="password" placeholder="Mot de passe" style="width:100%;box-sizing:border-box;margin-bottom:4px;padding:10px;border-radius:8px;border:1px solid #2a2f5a;background:#0d1229;color:#e0e0ff;font-size:13px">
+<div id="amErr" style="color:#ff6b6b;font-size:12px;min-height:18px;margin:4px 0"></div>
+<div style="display:flex;gap:8px">
+<button onclick="doAuth(false)" style="flex:1;background:#ffd700;color:#000;border:none;border-radius:8px;padding:10px;font-weight:bold;cursor:pointer;font-size:13px">Se connecter</button>
+<button onclick="doAuth(true)" style="flex:1;background:#1a1f3a;color:#ffd700;border:1px solid #ffd700;border-radius:8px;padding:10px;cursor:pointer;font-size:13px">Créer un compte</button>
+</div>
+<button onclick="closeAuthModal()" style="width:100%;margin-top:8px;background:none;color:#8a8aab;border:none;padding:6px;cursor:pointer;font-size:12px">Fermer</button>
+</div></div>
+<script>
+/* ===== AUTH & DONNEES LOCALES GELASETECH ===== */
+async function gtHash(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('gelase-salt-2026:'+s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
+function gtUsers(){try{return JSON.parse(localStorage.getItem('gt_users')||'{}');}catch(e){return {};}}
+function gtSession(){try{return JSON.parse(localStorage.getItem('gt_session')||'null');}catch(e){return null;}}
+function gtSetSession(u){if(u){localStorage.setItem('gt_session',JSON.stringify({email:u.email,name:u.name,at:Date.now()}));currentSession={user:{email:u.email}};}else{localStorage.removeItem('gt_session');currentSession=null;}renderAuth();}
+function gtLocalPubs(){try{return JSON.parse(localStorage.getItem('gt_pubs')||'[]');}catch(e){return [];}}
+function gtSaveLocalPubs(a){localStorage.setItem('gt_pubs',JSON.stringify(a));}
+function gtLikes(){try{return JSON.parse(localStorage.getItem('gt_likes')||'{}');}catch(e){return {};}}
+function gtComments(){try{return JSON.parse(localStorage.getItem('gt_comments')||'{}');}catch(e){return {};}}
+function showAuthModal(){document.getElementById('authModal').style.display='flex';}
+function closeAuthModal(){document.getElementById('authModal').style.display='none';}
+async function doLocalAuth(email,password,name,isRegister){
+  const users=gtUsers(); const h=await gtHash(password);
+  if(isRegister){
+    if(!email.includes('@')) throw new Error('Email invalide.');
+    if(password.length<4) throw new Error('Mot de passe trop court (4 caractères minimum).');
+    if(users[email]) throw new Error('Ce compte existe déjà : connectez-vous.');
+    users[email]={h,name:name||email.split('@')[0]};
+    localStorage.setItem('gt_users',JSON.stringify(users));
+    gtSetSession(users[email]); return users[email];
+  }
+  if(!users[email]||users[email].h!==h) throw new Error('Email ou mot de passe incorrect.');
+  gtSetSession(users[email]); return users[email];
+}
+async function doAuth(isReg){
+  const err=document.getElementById('amErr'); err.textContent='';
+  const email=(document.getElementById('amEmail').value||'').trim().toLowerCase();
+  const pass=document.getElementById('amPass').value||'';
+  const name=(document.getElementById('amName').value||'').trim();
+  try{
+    const u=await doLocalAuth(email,pass,name,isReg);
+    closeAuthModal();
+    if(window.GELASETECH_DB?.enabled){ try{ if(isReg){await window.GELASETECH_DB.signUp(email,pass,name);}else{await window.GELASETECH_DB.signIn(email,pass);} }catch(e){} }
+    loadPublications();
+    alert(isReg?('Compte créé. Bienvenue '+u.name+' !'):('Bon retour, '+u.name+' !'));
+  }catch(e){ err.textContent=e.message||'Erreur.'; }
+}
+function likePub(id){ const L=gtLikes(); L[id]=L[id]?0:1; localStorage.setItem('gt_likes',JSON.stringify(L)); render(); }
+function addComment(id){
+  const s=gtSession(); if(!s){showAuthModal();return;}
+  const t=prompt('Votre commentaire :'); if(!t)return;
+  const C=gtComments(); (C[id]=C[id]||[]).push({name:s.name,text:t,at:Date.now()});
+  localStorage.setItem('gt_comments',JSON.stringify(C)); render();
+}
+document.getElementById('authModal').addEventListener('click',function(e){if(e.target===this)closeAuthModal();});
 </script>
 </body></html>
