@@ -26,7 +26,7 @@ function render(){
   const q=(document.getElementById('search').value||'').toLowerCase();
   const c=document.getElementById('category').value;
   const list=publications.filter(p=>(!c||p.category===c)&&(!q||[p.title,p.description,p.category,p.author?.name,p.author].join(' ').toLowerCase().includes(q)));
-  document.getElementById('library').innerHTML=list.map(p=>`<article class="card"><span class="tag">${esc(p.category||'Général')}</span><h3>${esc(p.title)}</h3><p>${esc(p.description||'')}</p><div class="meta"><span>Par ${esc(p.author?.name||p.author||'Auteur')}</span><span>${esc(p.moderation_status||'pending')}</span><button class="lb" onclick="likePub('${p.id}')">❤️ ${gtLikes()[p.id]||0}</button><button class="lb" onclick="addComment('${p.id}')">💬 ${(gtComments()[p.id]||[]).length}</button></div></article>`).join('')||'<p class="muted">Aucune publication enregistrée.</p>';
+  document.getElementById('library').innerHTML=list.map(p=>`<article class="card"><span class="tag">${esc(p.category||'Général')}</span><h3>${esc(p.title)}</h3><p>${esc(p.description||'')}</p><div class="meta"><span>Par ${esc(p.author?.name||p.author||'Auteur')}</span><span>${esc(p.moderation_status||'pending')}</span><button class="lb" onclick="likePub('${p.id}')">❤️ ${gtLikes()[p.id]||0}</button><button class="lb" onclick="addComment('${p.id}')">💬 ${(gtComments()[p.id]||[]).length}</button>${(gtSession()||{}).role==='admin'?'<button class="lb" style="color:#ff6b6b" onclick="delPub(\''+p.id+'\')">🗑️ Supprimer</button>':''}</div></article>`).join('')||'<p class="muted">Aucune publication enregistrée.</p>';
 }
 async function loadPublications(){
   let remote=[];
@@ -92,7 +92,7 @@ async function toggleAuth(){
   }
   showAuthModal();
 }
-function renderAuth(){ const b=document.querySelector('.bar .secondary'); if(!b)return; const s=gtSession(); b.textContent=s?('👤 '+s.name):'Mon espace'; }
+function renderAuth(){ const b=document.querySelector('.bar .secondary'); if(!b)return; const s=gtSession(); b.textContent=s?(s.role==='admin'?'👑 '+s.name+' (ADMIN)':'👤 '+s.name):'Mon espace'; }
 async function boot(){
   try{ if(window.GELASETECH_DB?.enabled){ currentSession=await window.GELASETECH_DB.getSession(); try{ await window.GELASETECH_DB.watchValidationRequests(()=>{requestHoumbaValidation().catch(()=>{});}); }catch(e){} } }catch(e){}
   renderAuth();
@@ -159,6 +159,7 @@ try{if(!sessionStorage.getItem('gtAISeen')){sessionStorage.setItem('gtAISeen','1
 <button onclick="doAuth(false)" style="flex:1;background:#ffd700;color:#000;border:none;border-radius:8px;padding:10px;font-weight:bold;cursor:pointer;font-size:13px">Se connecter</button>
 <button onclick="doAuth(true)" style="flex:1;background:#1a1f3a;color:#ffd700;border:1px solid #ffd700;border-radius:8px;padding:10px;cursor:pointer;font-size:13px">Créer un compte</button>
 </div>
+<button onclick="gtAdminQuick()" style="width:100%;margin-top:8px;background:#2a2410;color:#ffd700;border:1px solid #ffd700;border-radius:8px;padding:9px;cursor:pointer;font-size:12px;font-weight:bold">👑 Connexion Administrateur</button>
 <button onclick="closeAuthModal()" style="width:100%;margin-top:8px;background:none;color:#8a8aab;border:none;padding:6px;cursor:pointer;font-size:12px">Fermer</button>
 </div></div>
 <script>
@@ -166,7 +167,7 @@ try{if(!sessionStorage.getItem('gtAISeen')){sessionStorage.setItem('gtAISeen','1
 async function gtHash(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('gelase-salt-2026:'+s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
 function gtUsers(){try{return JSON.parse(localStorage.getItem('gt_users')||'{}');}catch(e){return {};}}
 function gtSession(){try{return JSON.parse(localStorage.getItem('gt_session')||'null');}catch(e){return null;}}
-function gtSetSession(u){if(u){localStorage.setItem('gt_session',JSON.stringify({email:u.email,name:u.name,at:Date.now()}));currentSession={user:{email:u.email}};}else{localStorage.removeItem('gt_session');currentSession=null;}renderAuth();}
+function gtSetSession(u){if(u){localStorage.setItem('gt_session',JSON.stringify({email:u.email,name:u.name,role:u.role||'user',at:Date.now()}));currentSession={user:{email:u.email}};}else{localStorage.removeItem('gt_session');currentSession=null;}renderAuth();}
 function gtLocalPubs(){try{return JSON.parse(localStorage.getItem('gt_pubs')||'[]');}catch(e){return [];}}
 function gtSaveLocalPubs(a){localStorage.setItem('gt_pubs',JSON.stringify(a));}
 function gtLikes(){try{return JSON.parse(localStorage.getItem('gt_likes')||'{}');}catch(e){return {};}}
@@ -207,5 +208,27 @@ function addComment(id){
   localStorage.setItem('gt_comments',JSON.stringify(C)); render();
 }
 document.getElementById('authModal').addEventListener('click',function(e){if(e.target===this)closeAuthModal();});
+/* ===== COMPTE ADMINISTRATEUR PRECONFIGURE ===== */
+function gtSeedAdmin(){
+  var users=gtUsers(); var email='admin@gelasetech.cg';
+  if(!users[email]){
+    gtHash('GelaseTech@2026').then(function(h){
+      users=gtUsers();
+      if(!users[email]){ users[email]={h:h,name:'Administrateur',role:'admin',at:Date.now()}; localStorage.setItem('gt_users',JSON.stringify(users)); }
+    });
+  }
+}
+gtSeedAdmin();
+function gtAdminQuick(){
+  document.getElementById('amEmail').value='admin@gelasetech.cg';
+  document.getElementById('amPass').value='GelaseTech@2026';
+  document.getElementById('amName').value='';
+  doAuth(false);
+}
+function delPub(id){
+  if(!confirm('Supprimer cette publication de votre bibliothèque ?'))return;
+  gtSaveLocalPubs(gtLocalPubs().filter(function(p){return p.id!==id;}));
+  loadPublications();
+}
 </script>
 </body></html>
